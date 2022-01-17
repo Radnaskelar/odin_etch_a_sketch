@@ -8,17 +8,16 @@ for (let i = 0; i < divCounter; i++){
     container.appendChild(div);
 }
 
-const grid = document.querySelectorAll('.square');
+const squares = document.querySelectorAll('.square');
 
 //random color generator: 
 // const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);
 
-grid.forEach((square => {
+squares.forEach((square => {
     square.addEventListener('mouseenter', () => {
         const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);
         square.style.background = color;
     });
 }))
-
 
 

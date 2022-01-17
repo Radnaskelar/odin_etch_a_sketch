@@ -1,11 +1,22 @@
 .square {
-    border: 0.5px solid red;
-    padding: 1px;
-    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 1px solid red;
+    flex: 1 1 auto;
+    height: 16px;
+    width: 16px;
 }
 
-#container {
+/* grid method of creation
+/*#container {
     border: 1px solid green;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}*/
+
+#container {
+    border: 1px solid green;
+    display: flex;
+    height: 256px;
+    width: 256px;
+    flex-wrap: wrap;
 }
