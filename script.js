@@ -1,19 +1,18 @@
 const container = document.getElementById('container');
 // const gridContainer = document.getElementById('gridContainer');
 
-// creating divs, appending them to main div 'container'
-
-let divCounter;
-const createDivs = () => {
-    const div = document.createElement('div');
-    container.appendChild(div);
-    div.classList.add('square');
+const createGrid = (squareNumber) => {
+    for (let i = 0; i < squareNumber; i++) {
+        for (let j = 0; j < squareNumber; j++) {
+            let div = document.createElement('div');
+            container.appendChild(div).classList.add('square');
+            let newHeight = (256 / squareNumber);
+            let newWidth = (256 / squareNumber);
+            div.setAttribute('style', `height: ${newHeight}px; width: ${newWidth}px`);
+        }
+    }
 }
-
-divCounter = Math.pow(16, 2);
-for (let i = 0; i < divCounter; i++) {
-    createDivs();
-}
+createGrid(16);
 
 // //grid method of creating div squares
 
@@ -27,10 +26,15 @@ for (let i = 0; i < divCounter; i++) {
 const squares = document.querySelectorAll('.square');
 const squaresArray = Array.from(squares);
 
+//random color generator
 const randomColor = () => {
     const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);
     return color;
 }
+
+//black color
+
+//white color/eraser
 
 const colorChange = function (e) {
     let target = e.target;
@@ -40,26 +44,45 @@ const colorChange = function (e) {
 
 container.addEventListener('mouseenter', colorChange, true);
 
-const button = document.getElementById('clearGrid');
-button.setAttribute('style', 'font-size: 16px; background-color: lightblue; color: purple');
+const clear = document.getElementById('clearGrid');
 
+const reset = document.getElementById('resetGrid');
+
+//capture event due to array of divs removal
 const clearGrid = () => {
-    squaresArray.forEach(square => {
+    const squares = document.querySelectorAll('.square');
+    const squaresArray = Array.from(squares);
+    squaresArray.forEach((square) => {
+        square.removeAttribute('color');
+    });
+};
+
+//caputer event due to array of divs removal
+const resetGrid = () => {
+    const squares = document.querySelectorAll('.square');
+    const squaresArray = Array.from(squares);
+    squaresArray.forEach((square) => {
         container.removeChild(square);
     });
-}
+    const newSize = prompt('Number of squares:', 16);
+    createGrid(newSize);
+};
 
-const drawGrid = function (squareNumber) {
-    let divWidth = (container.clientWidth/squareNumber).toString();
-    let divHeight = (container.clientHeight/squareNumber).toString();
-    
-    divCounter = Math.pow(squareNumber, 2);
-    for (let i = 0; i < divCounter; i++) {
-        createDivs();
-    }
-}
+//button for resetting grid
+reset.addEventListener('click', resetGrid);
 
-button.addEventListener('click', clearGrid);
+//button for clearing grid
+clear.addEventListener('click', clearGrid);
+
+// range input
+const display = document.querySelector('p')
+const input = document.querySelector('input');
+display.textContent = input.value;
+
+function showValue() {
+    display.textContent = input.value;
+}
+input.addEventListener('mousemove', showValue);
 
 // random color generator: 
 // const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);

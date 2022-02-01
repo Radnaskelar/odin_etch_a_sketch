@@ -11,11 +11,21 @@
 
 <body>
     <h1>Etch-A-Sketch</h1>
-    <div class='buttons'>
-        <button id='clearGrid'>Clear</button>
+    <button id='clearGrid'>Clear</button>
+    <button id='resetGrid'>Reset</button>
+    <div class='options'>
+        <label for = 'selector'>Size:</label>
+        <input id='selector' type='range' min='1' max='64' value='16' list='grid'>
+        <datalist>
+            <option value='0' ; label='0'></option>
+            <option value='16' ; label='16'></option>
+            <option value='32' ; label='32'></option>
+            <option value='64' ; label='64'></option>
+        </datalist>
+        <p id='display'></p>
     </div>
     <div id='container'></div>
-    <div id='gridContainer'></div>
+    <!--<div id='gridContainer'></div>-->
     <script src='script.js'></script>
 </body>
 
