@@ -6,8 +6,8 @@ const createGrid = (squareNumber) => {
         for (let j = 0; j < squareNumber; j++) {
             let div = document.createElement('div');
             container.appendChild(div).classList.add('square');
-            let newHeight = (256 / squareNumber);
-            let newWidth = (256 / squareNumber);
+            let newHeight = (512 / squareNumber);
+            let newWidth = (512 / squareNumber);
             div.setAttribute('style', `height: ${newHeight}px; width: ${newWidth}px`);
         }
     }
@@ -31,48 +31,76 @@ const randomColor = () => {
     const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);
     return color;
 }
-
-//black color
-
-//white color/eraser
-
 const colorChange = function (e) {
     let target = e.target;
     if (target.className != 'square') return;
     target.style.background = randomColor();
 }
 
-container.addEventListener('mouseenter', colorChange, true);
+//black color
+const colorBlack = () => {
+    const color = 'black';
+    return color;
+}
 
-const clear = document.getElementById('clearGrid');
+const colorChangeBlack = function (e) {
+    let target = e.target;
+    if (target.className != 'square') return;
+    target.style.background = colorBlack();
+}
+
+//white color/eraser
+const colorWhite = () => {
+    const color = 'white';
+    return color;
+}
+
+const colorChangeWhite = function (e) {
+    let target = e.target;
+    if (target.className != 'square') return;
+    target.style.background = colorWhite();
+}
+
+function removeAllListeners() {
+    container.removeEventListener('mouseenter', colorChange, true);
+    container.removeEventListener('mouseenter', colorChangeBlack, true);
+    container.removeEventListener('mouseenter', colorChangeBlack, true);
+}
+
+const buttons = document.querySelectorAll('button');
+const buttonsArr = Array.from(buttons);
+
+const colorPicker = function (e) {
+    removeAllListeners();
+    if (e.target.textContent == 'Color') {
+        container.addEventListener('mouseenter', colorChange, true);
+    } else if (e.target.textContent == 'Black') {
+        container.addEventListener('mouseenter', colorChangeBlack, true);
+    } else if (e.target.textContent == 'Eraser') {
+        container.addEventListener('mouseenter', colorChangeWhite, true);
+    }
+}
+
+buttonsArr.forEach((button) => {
+    button.addEventListener('click', colorPicker);
+})
+
+//container.addEventListener('mouseenter', colorChange, true);
 
 const reset = document.getElementById('resetGrid');
 
-//capture event due to array of divs removal
-const clearGrid = () => {
-    const squares = document.querySelectorAll('.square');
-    const squaresArray = Array.from(squares);
-    squaresArray.forEach((square) => {
-        square.removeAttribute('color');
-    });
-};
-
-//caputer event due to array of divs removal
 const resetGrid = () => {
     const squares = document.querySelectorAll('.square');
     const squaresArray = Array.from(squares);
     squaresArray.forEach((square) => {
         container.removeChild(square);
     });
-    const newSize = prompt('Number of squares:', 16);
+    const newSize = input.value;
     createGrid(newSize);
 };
 
-//button for resetting grid
+//button for reseting grid/clearing colors
 reset.addEventListener('click', resetGrid);
-
-//button for clearing grid
-clear.addEventListener('click', clearGrid);
 
 // range input
 const display = document.querySelector('p')
@@ -83,6 +111,7 @@ function showValue() {
     display.textContent = input.value;
 }
 input.addEventListener('mousemove', showValue);
+input.addEventListener('mouseup', resetGrid);
 
 // random color generator: 
 // const color = '#' + (Math.random().toString(16) + "000000").substring(2, 8);
